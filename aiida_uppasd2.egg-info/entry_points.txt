@@ -1,0 +1,12 @@
+[aiida.calculations]
+asd_calculations = aiida_uppasd2.UppASD_Calculations:UppASD_Calculations
+
+[aiida.cmdline.data]
+asd = aiida_uppasd2.UppASD_Clis:asd
+
+[aiida.parsers]
+asd_parsers = aiida_uppasd2.UppASD_Parsers:UppASD_Parsers
+
+[aiida.workflows]
+UppASD_GenericLoopWorkflow = aiida_uppasd2.UppASD_GenericLoopWorkflow:UppASD_Genericloopworkflow
+UppASD_baseworkflow = aiida_uppasd2.UppASD_BaseWorkflow:UppASD_Baseworkflow

@@ -1,0 +1,15 @@
+LICENSE
+README.md
+pyproject.toml
+aiida_uppasd2/UppASD_BaseWorkflow.py
+aiida_uppasd2/UppASD_Calculations.py
+aiida_uppasd2/UppASD_Clis.py
+aiida_uppasd2/UppASD_GenericLoopWorkflow.py
+aiida_uppasd2/UppASD_Parsers.py
+aiida_uppasd2/__init__.py
+aiida_uppasd2.egg-info/PKG-INFO
+aiida_uppasd2.egg-info/SOURCES.txt
+aiida_uppasd2.egg-info/dependency_links.txt
+aiida_uppasd2.egg-info/entry_points.txt
+aiida_uppasd2.egg-info/requires.txt
+aiida_uppasd2.egg-info/top_level.txt
