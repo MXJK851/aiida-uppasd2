@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: aiida-uppasd2
-Version: 2.0.0
+Version: 2.0.1
 Summary: AiiDA plugin for UppASD version 2
 Author-email: Qichen Xu <mxjk851@gmail.com>
 License:                     GNU GENERAL PUBLIC LICENSE

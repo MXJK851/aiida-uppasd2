@@ -1,0 +1,32 @@
+simid SCsurf_T
+ncell     60 60 1
+BC        P         P         0                 
+cell       1.00000  0.00000   0.00000  0.00000   1.00000   0.00000  0.00000   0.00000   1.00000
+do_prnstruct 2
+posfile   ./posfile
+exchange ./jij
+momfile ./momfile
+dm ./dmdata
+maptype 2
+SDEalgh   1                               
+Initmag   1                                     
+ip_mode M
+ip_mcanneal 4
+1000 100
+1000 50
+1000 20
+1000 1.0001
+ip_hfield 0.0 0.0 -150
+mode      S                                    
+temp       0.0001
+damping   0.500
+Nstep   1000
+timestep  1.000e-15                   
+hfield 0.0 0.0 -150.0
+qm_svec 1 -1 0
+qm_nvec 0 0 1
+plotenergy   1   
+do_avrg Y
+skyno T
+
+

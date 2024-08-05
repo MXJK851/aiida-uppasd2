@@ -69,14 +69,9 @@ class UppASD_Calculations(CalcJob):
             if file_name == "inpsd":
                 with folder.open((file_name + ".dat"), "a+") as f:
                     for i in uppasd_aiida2_input_dict["inpsd"].keys():
-                        f.write(
-                            "{} {} \n".format(
-                                i,
-                                " ".join(
-                                    map(str, uppasd_aiida2_input_dict["inpsd"][i])
-                                ),
-                            )
-                        )
+                        value = " ".join(map(str, uppasd_aiida2_input_dict["inpsd"][i]))
+                        f.write("{} {}\n".format(i, value.replace("\\n", "\n")))
+
             else:
                 if "qfile" in file_name:  # qfile is special, it has a header line
                     data_list = uppasd_aiida2_input_dict[file_name]

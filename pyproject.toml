@@ -1,6 +1,6 @@
 [project]
 name = "aiida-uppasd2"
-version = "2.0.0"
+version = "2.0.1"
 description = "AiiDA plugin for UppASD version 2"
 authors = [{name = "Qichen Xu", email = "mxjk851@gmail.com"}]
 readme = "README.md"
