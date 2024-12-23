@@ -1,5 +1,5 @@
 [project]
-name = "aiida-uppasd2"
+name = "aiida-uppasd"
 version = "2.0.1"
 description = "AiiDA plugin for UppASD version 2"
 authors = [{name = "Qichen Xu", email = "mxjk851@gmail.com"}]
@@ -14,7 +14,6 @@ keywords = ["aiida", "plugin"]
 requires-python = ">=3.7"
 dependencies = [
     "aiida-core>=2.0,<3",
-    "voluptuous"
 ]
 
 [project.urls]
@@ -33,20 +32,15 @@ pre-commit = [
     "pylint~=2.15.10"
 ]
 
-[project.entry-points."aiida.data"]
-#I are not include new data now, but will be added in the future if needed.
-
 [project.entry-points."aiida.calculations"]
-#In UppASD-AiiDA version 1 I named it with core_calcs, but when I understand we don't need other calculations (maybe in furture we need), I decide to simplify it.
-"asd_calculations" = "aiida_uppasd2.UppASD_Calculations:UppASD_Calculations"
+"uppasd.base" = "aiida_uppasd.calculations.base:UppasdBaseCalculation"
 
 [project.entry-points."aiida.parsers"]
-"asd_parsers" = "aiida_uppasd2.UppASD_Parsers:UppASD_Parsers"
+"uppasd.base" = "aiida_uppasd.parsers.base:UppasdBaseParser"
 
 [project.entry-points."aiida.cmdline.data"]
-#Here we need to gives several command line tools to help our user connect UppASD with SpinView and other codes for postprocessing
-"asd" = "aiida_uppasd2.UppASD_Clis:asd"
+"asd" = "aiida_uppasd.cli.commands:asd"
 
 [project.entry-points.'aiida.workflows']
-'UppASD_baseworkflow' = 'aiida_uppasd2.UppASD_BaseWorkflow:UppASD_Baseworkflow'
-'UppASD_GenericLoopWorkflow' = 'aiida_uppasd2.UppASD_GenericLoopWorkflow:UppASD_Genericloopworkflow'
+'uppasd.base' = 'aiida_uppasd.workflows.base:UppasdBaseWorkflow'
+'uppasd.generic_loop' = 'aiida_uppasd.workflows.generic_loop:UppasdGenericLoopWorkflow'

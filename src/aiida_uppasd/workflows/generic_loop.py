@@ -47,7 +47,7 @@ Dr. Qichen Xu, Uppsala University & KTH, Sweden
 """
 
 import re
-from aiida_uppasd2.UppASD_BaseWorkflow import UppASD_Baseworkflow
+from aiida_uppasd.workflows.base import UppasdBaseWorkflow
 from aiida import orm
 from aiida.engine import (
     ToContext,
@@ -55,7 +55,7 @@ from aiida.engine import (
 )
 
 
-class GenericLoopWorkflow(WorkChain):
+class UppasdGenericLoopWorkflow(WorkChain):
 
     @classmethod
     def define(cls, spec):
@@ -63,7 +63,7 @@ class GenericLoopWorkflow(WorkChain):
         super().define(spec)
 
         # Get all the inputs from the BaseRestartWorkChain
-        spec.expose_inputs(UppASD_Baseworkflow)
+        spec.expose_inputs(UppasdBaseWorkflow)
 
         # Define loop_dict
         spec.input("loop_dict_input", valid_type=orm.Dict, required=True)
@@ -86,7 +86,7 @@ class GenericLoopWorkflow(WorkChain):
         loop_dict_input,
         func,
         keys,
-        keys_for_fuction,
+        keys_for_function,
         sub_workflow_dict,  # An empty dict for store all the sub workflows results
         loop_dict_combinations,  # This is a list for store all tags for next step use
         current_combination=None,
@@ -95,11 +95,11 @@ class GenericLoopWorkflow(WorkChain):
             current_combination = []
 
         if not keys:
-            # keys_for_fuction  initial value is equal to keys, used for change dict keys for
+            # keys_for_function  initial value is equal to keys, used for change dict keys for
             # the auto_restart_workflow
             func(
                 current_combination,
-                keys_for_fuction,
+                keys_for_function,
                 sub_workflow_dict,
                 loop_dict_combinations,
             )
@@ -113,7 +113,7 @@ class GenericLoopWorkflow(WorkChain):
                 loop_dict_input,
                 func,
                 remaining_keys,
-                keys_for_fuction,
+                keys_for_function,
                 sub_workflow_dict,
                 loop_dict_combinations,
                 current_combination + [value],
@@ -122,7 +122,7 @@ class GenericLoopWorkflow(WorkChain):
     def submit_base_restart_workflow(
         self,
         current_combination,
-        keys_for_fuction,
+        keys_for_function,
         sub_workflow_dict,
         loop_dict_combinations,
     ):
@@ -143,30 +143,30 @@ class GenericLoopWorkflow(WorkChain):
         }
 
         sub_workflow_tag = ""
-        for i in range(len(keys_for_fuction)):
+        for i in range(len(keys_for_function)):
             sub_workflow_tag = (
                 sub_workflow_tag
-                + str(keys_for_fuction[i])
+                + str(keys_for_function[i])
                 + "_"
                 + str(current_combination[i])
                 + "_"
             )
             # Check if this key is in the which level of the input_dict
             # note that if it is not in the first level, it will be in inpsd dict
-            if keys_for_fuction[i] in workflow_input_dict["input_dict"].keys():
-                workflow_input_dict["input_dict"][keys_for_fuction[i]] = (
+            if keys_for_function[i] in workflow_input_dict["input_dict"].keys():
+                workflow_input_dict["input_dict"][keys_for_function[i]] = (
                     current_combination[i]
                 )
 
             else:
-                workflow_input_dict["input_dict"]["inpsd"][keys_for_fuction[i]] = (
+                workflow_input_dict["input_dict"]["inpsd"][keys_for_function[i]] = (
                     current_combination[i]
                 )
 
-        # Repalce all symbols that are not allowed in the tag to '_'
+        # Replace all symbols that are not allowed in the tag to '_'
         sub_workflow_tag = re.sub(r"[^a-zA-Z0-9_]", "_", sub_workflow_tag)
         loop_dict_combinations.append(sub_workflow_tag)
-        future = self.submit(UppASD_Baseworkflow, **workflow_input_dict)
+        future = self.submit(UppasdBaseWorkflow, **workflow_input_dict)
         sub_workflow_dict[sub_workflow_tag] = future
 
     def loops(self):
