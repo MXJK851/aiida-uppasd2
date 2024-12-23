@@ -6,7 +6,6 @@ Created on Mon Aug 23 15:15:05 2021
 
 @author: qichen
 """
-import os
 from aiida import orm, load_profile
 from aiida.plugins import CalculationFactory
 from aiida.engine import submit
@@ -14,7 +13,7 @@ import pickle
 
 load_profile()
 code = orm.load_code("local_code_uppasd@localhost")
-aiida_uppasd = CalculationFactory("asd_calculations")
+aiida_uppasd = CalculationFactory("uppasd.base")
 builder = aiida_uppasd.get_builder()
 
 with open("./uppasd_aiida2_input.pkl", "rb") as f:

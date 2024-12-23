@@ -29,10 +29,10 @@ from aiida.engine import (
 from aiida.plugins import CalculationFactory
 
 # get calculations
-ASDCalculation = CalculationFactory("asd_calculations")
+ASDCalculation = CalculationFactory("uppasd.base")
 
 
-class UppASD_Baseworkflow(BaseRestartWorkChain):
+class UppasdBaseWorkflow(BaseRestartWorkChain):
     # base restart workflow
     _process_class = ASDCalculation
 

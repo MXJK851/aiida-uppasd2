@@ -6,51 +6,34 @@ Date: 2024-07-11
 
 # Importing modules.
 # Please keep in mind to remove unnecessary modules in future versions.
-import os
 from aiida import orm
 from aiida.common import datastructures
 from aiida.engine import CalcJob
-from aiida.orm import (
-    Code,
-    SinglefileData,
-    BandsData,
-    Int,
-    Float,
-    Str,
-    Bool,
-    List,
-    Dict,
-    ArrayData,
-    XyData,
-    SinglefileData,
-    FolderData,
-    RemoteData,
-)
 
 
 # Main class for UppASD calculations.
-class UppASD_Calculations(CalcJob):
+class UppasdBaseCalculation(CalcJob):
     @classmethod
     def define(cls, spec):
-        super(UppASD_Calculations, cls).define(spec)
+        super(UppasdBaseCalculation, cls).define(spec)
         # input file sections :
         spec.input(
             "input_dict",
-            valid_type=Dict,
+            valid_type=orm.Dict,
             required=True,
             help="dict from loading the uppasd_aiida2_input.pkl file",
         )
-        # if no retrieve_list_name included, nothing will be retrieved from the remote folder, only parser the totoal energy file back
+        # if no retrieve_list_name included, nothing will be retrieved from the remote folder, only parser the total energy file back
         spec.input(
             "retrieve_and_parse_name_list",
-            valid_type=List,
+            valid_type=orm.List,
             required=True,
             help="list of files to parse and retrieve from the remote folder",
         )
         # output sections:
         spec.output(
             "output_array",
-            valid_type=ArrayData,
+            valid_type=orm.ArrayData,
             help="the output arrays of a single UppASD calculation, it includes all request files (parsed into np arrays) in the retrieve_list_name",
             required=True,
         )
@@ -61,7 +44,7 @@ class UppASD_Calculations(CalcJob):
 
         calcinfo = datastructures.CalcInfo()
 
-        # let's firstly dispatch the input dict into sveral input file in the sandbox
+        # let's firstly dispatch the input dict into several input file in the sandbox
         uppasd_aiida2_input_dict = self.inputs.input_dict.get_dict()
         # in the input dict, we assume the keys represent the file name and the value is file content.
         input_file_name_list = uppasd_aiida2_input_dict.keys()

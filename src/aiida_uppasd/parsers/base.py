@@ -2,37 +2,19 @@
 """
 Parser for UppASD
 """
-import json
 import numpy as np
 import pandas as pd
 from aiida import orm
 from aiida.engine import ExitCode
 from aiida.parsers.parser import Parser
 from aiida.plugins import CalculationFactory
-from aiida.common.exceptions import NotExistent
-from aiida.orm import (
-    Code,
-    SinglefileData,
-    BandsData,
-    Int,
-    Float,
-    Str,
-    Bool,
-    List,
-    Dict,
-    ArrayData,
-    XyData,
-    SinglefileData,
-    FolderData,
-    RemoteData,
-)
 
-ASDCalculation = CalculationFactory("asd_calculations")
+ASDCalculation = CalculationFactory("uppasd.base")
 
 
-class UppASD_Parsers(Parser):
+class UppasdBaseParser(Parser):
     # Some exceptions: aniso.out,
-    def aniso_struct_out_parser(sekf, input_file):
+    def aniso_struct_out_parser(self, input_file):
         f = open(input_file)
         all_file = f.readlines()[1:]
         index = 0
@@ -88,7 +70,7 @@ class UppASD_Parsers(Parser):
     def parse(self, **kwargs):
         output_folder = self.retrieved
 
-        retrived_file_name_list = output_folder.list_object_names()
+        retrieved_file_name_list = output_folder.list_object_names()
 
         # Check if all requested files are present
         files_requested = self.node.inputs.retrieve_and_parse_name_list.get_list()
@@ -100,7 +82,7 @@ class UppASD_Parsers(Parser):
         #     return self.exit_codes.ERROR_MISSING_OUTPUT_FILES
 
         # Walltime check
-        output_arrays = ArrayData()
+        output_arrays = orm.ArrayData()
         for filename in files_requested:
             # parser special files:
             if "aniso" in filename:
@@ -112,7 +94,7 @@ class UppASD_Parsers(Parser):
                         + self.node.inputs.input_dict["inpsd"]["simid"][0]
                         + ".out"
                     )
-                if filename in retrived_file_name_list:
+                if filename in retrieved_file_name_list:
                     with output_folder.open(aniso_filename, "rb") as f:
                         aniso = self.aniso_struct_out_parser(f)
                         output_arrays.set_array(
@@ -127,7 +109,7 @@ class UppASD_Parsers(Parser):
                         + self.node.inputs.input_dict["inpsd"]["simid"][0]
                         + ".out"
                     )
-                if filename in retrived_file_name_list:
+                if filename in retrieved_file_name_list:
                     with output_folder.open(filename, "rb") as f:
                         skipline = self.get_skiplines(f)
                     with output_folder.open(filename, "rb") as f:

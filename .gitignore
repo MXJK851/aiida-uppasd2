@@ -1,0 +1,48 @@
+
+build/
+postgres*.log
+.aiida_envs.yaml
+example_inputs/
+pytest_workdir/
+
+
+*.pyc
+*~
+*.swp
+*.project
+*.pydevproject
+.settings
+.DS_Store
+*/.DS_Store
+*/*/.DS_Store
+*/*/*/.DS_Store
+.metadata
+.ipynb_checkpoints
+.project
+.idea/vcs.xml
+
+/venv*/
+/.idea/
+*.egg-info
+.eggs
+.vscode
+.tox
+
+# files created by coverage
+.cache
+.pytest_cache
+.coverage
+coverage.xml
+
+# Files created by RPN tests
+**/polish_workchains/polish*
+
+# Build files
+dist/
+pip-wheel-metadata
+
+# Docs
+docs/_build/
+docs/build
+docs/source/reference/api
+docs/source/apidocs

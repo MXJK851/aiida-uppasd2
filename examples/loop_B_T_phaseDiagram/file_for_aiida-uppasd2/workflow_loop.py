@@ -6,11 +6,10 @@ Created on Mon Aug 23 15:15:05 2021
 
 @author: qichen
 """
-import os
 from aiida import orm, load_profile
 from aiida.engine import submit
 import pickle
-from aiida_uppasd2.UppASD_GenericLoopWorkflow import GenericLoopWorkflow
+from aiida_uppasd.workflows.generic_workflow import UppasdGenericLoopWorkflow
 
 load_profile()
 
@@ -47,4 +46,4 @@ workflow_input_dict = {
     ),
 }
 
-process = submit(GenericLoopWorkflow.get_builder(), **workflow_input_dict)
+process = submit(UppasdGenericLoopWorkflow.get_builder(), **workflow_input_dict)
